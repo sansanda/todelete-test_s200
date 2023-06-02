@@ -35,9 +35,34 @@ def moving_test(probe_table):
     # probe_table.indexing_mode = True
     for i in range(0, 10):
         probe_table.chuck_lift = False
-        probe_table.next_die = "R"
+        probe_table.next_die = 'U'
         probe_table.chuck_lift = True
 
+    probe_table.chuck_lift = False
+
+
+def finelift_test(probe_table):
+    """
+    :type probe_table:S200
+    """
+    probe_table.chuck_lift = False
+    probe_table.move_to_probing_zone_centre_position()
+    for i in range(0, 20):
+        probe_table.z_finelift = i * 100
+        probe_table.chuck_lift = True
+        probe_table.chuck_lift = False
+    probe_table.chuck_lift = False
+    probe_table.z_finelift = 1
+
+
+def theta_test(probe_table):
+    """
+    :type probe_table:S200
+    """
+    probe_table.chuck_lift = False
+    probe_table.move_to_probing_zone_centre_position()
+    for i in range(0, 100):
+        probe_table.theta_position = -(i * 100)
     probe_table.chuck_lift = False
 
 
@@ -57,8 +82,10 @@ if __name__ == '__main__':
     s200 = S200("GPIB0::28::INSTR",
                 query_delay=0.5,
                 write_delay=0.5)
-    getting_chuck_position_info_test(s200)
-    # moving_test(s200)
+    # finelift_test(s200)
+    # theta_test(s200)
+    # getting_chuck_position_info_test(s200)
+    moving_test(s200)
     # lamp_test(s200)
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
